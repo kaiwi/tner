@@ -26,7 +26,6 @@
         <div class="col-sm-10">
             <center>
                 <h3> model checkpoint: {{ model_ckpt }} </h3>
-                <h5>Entity Types: {{ entities }} </h5>
             </center>
             <br>
             <h5> Insert a text to get prediction </h5>

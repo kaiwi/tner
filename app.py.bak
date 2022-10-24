@@ -11,16 +11,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-checkpoint = input("Enter model checkpoint path or tner Huggingface checkpoint: ")
-NER_MODEL = os.getenv('NER_MODEL', f'{checkpoint}')
-if len(NER_MODEL) == 0:
-    NER_MODEL = os.getenv('NER_MODEL', 'tner/roberta-large-wnut2017')
-# if using a local checkpoint, extract entity list
-if NER_MODEL.split('/')[0] != "tner":
-    # TODO: add entities to app
-    #with open(f'{}'):
-    #    ENTITIES = 
-print(f"Using {NER_MODEL} for inference server...")
+NER_MODEL = os.getenv('NER_MODEL', 'tner/roberta-large-wnut2017')
 DEBUG = False
 DUMMY = {
    'prediction': [['B-person', 'I-person', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'B-location']],
@@ -38,8 +29,6 @@ if not DEBUG:
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "model_ckpt": NER_MODEL})
-    # TODO
-    #return templates.TemplateResponse("index.html", {"request": request, "model_ckpt": NER_MODEL, "entities": ENTITIES})
 
 
 @app.post("/process")
